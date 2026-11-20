@@ -1,5 +1,16 @@
 # 패션 에이전트 (Fashion Agent)
 
+> 📌 **포트폴리오 사본** · **팀 프로젝트 (3명)** · 원본 저장소: [fashion-agent-team/fashion-agent](https://github.com/fashion-agent-team/fashion-agent) (커밋 기록 그대로 복사)
+>
+> **내가 맡은 부분 (정지원)**
+> - 젯슨 상시 서버 배포: Docker Compose·Nginx·Tailscale Funnel 설정과 운영 문서 (`docs/infra/jetson`)
+> - 사진 전송 최적화: 보내기 전에 긴 변 1280px·품질 80으로 줄이기
+> - 첫 추천 빠르게: 앱이 켜지거나 다시 앞으로 올 때 서버에 미리 준비 요청 보내기
+> - iOS 설치 스크립트 개선 (서명 값 저장, 실행 실패 시 안내)
+>
+> 서버·MCP 저장소: [fashion-agent-team](https://github.com/fashion-agent-team) 조직의 `fashion-agent-gateway`, `fashion-agent-agent`, `mcp-*`
+
+
 시각장애인을 위한 음성 AI 에이전트입니다. 버튼으로 묻지 않고, 에이전트가 말로 묻고 사용자가 말로 답합니다.
 
 ## 지금 쓸 수 있는 기능
