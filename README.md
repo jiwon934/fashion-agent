@@ -2,11 +2,29 @@
 
 > 📌 **포트폴리오 사본** · **팀 프로젝트 (3명)** · 원본 저장소: [fashion-agent-team/fashion-agent](https://github.com/fashion-agent-team/fashion-agent) (커밋 기록 그대로 복사)
 >
-> **내가 맡은 부분 (정지원)**
-> - 젯슨 상시 서버 배포: Docker Compose·Nginx·Tailscale Funnel 설정과 운영 문서 (`docs/infra/jetson`)
-> - 사진 전송 최적화: 보내기 전에 긴 변 1280px·품질 80으로 줄이기
-> - 첫 추천 빠르게: 앱이 켜지거나 다시 앞으로 올 때 서버에 미리 준비 요청 보내기
-> - iOS 설치 스크립트 개선 (서명 값 저장, 실행 실패 시 안내)
+> **내가 맡은 부분 (정지원)** · 팀 저장소 10개 중 7개에 PR 88개 (전체 기간 2026-11-03 ~ 11-20)
+>
+> **① 옷 상태 인식 MCP 서버 — [mcp-clothes-state](https://github.com/fashion-agent-team/mcp-clothes-state) 담당** (PR 26개)
+> - Java 21 · Spring AI MCP 서버로 `clothes_inspect`(사진 → 옷마다 종류·색·무늬·얼룩·찢어짐), `outfit_color_check`(색 조합·자리에 맞는 색) 도구 구현
+> - 모델 4개 직접 학습해 ONNX로 서버에서 실행: 얼룩·찢어짐 YOLO(v6, 5~7차 비교로 기준 0.5/0.3 결정), 옷 종류 12종, 옷 색 20가지 CNN(K-Fashion), 무늬 8종
+> - 입은 옷 실수(뒤집어 입음·앞뒤·단추·택) 검사, 애매하면 GPT로 확인하고 재학습 후보로 저장 · 무늬 인식 FashionSigLIP LoRA로 입은 옷 정확도 0.845 → 0.900
+> - GPT로 보낼 때 얼굴 쪽 가리기, 확인 제한 시간 3초 → 1.5초, 젯슨 메모리 설정
+>
+> **② 치아 확인 도구 — [mcp-face-check](https://github.com/fashion-agent-team/mcp-face-check)의 `teeth_check` 담당** (PR 7개)
+> - 이 사이에 낀 것을 찾는 분류 모델(MobileNetV3-Small) 학습·ONNX 서버 실행, 모델 v4로 앞니 사이 고춧가루 놓치던 문제 해결 (합성 시험 정확도 91%)
+>
+> **③ 일정 MCP 서버 — [mcp-schedule](https://github.com/fashion-agent-team/mcp-schedule) 담당** (PR 7개)
+> - Spring AI `@McpTool` + 카카오 로컬 + PostgreSQL로 처음부터 구현, 격식 일정 드라이클리닝 안내, 앱 인사용 일정 브리핑, 아침 미리 알림
+>
+> **④ 앱 (이 저장소, Flutter)** (PR 28개)
+> - 처음 Gemini 비전 프록시 서버 뼈대를 만들고, 서버 코드를 기능별 저장소로 나누는 구조 정리
+> - 치아·화장 촬영 위치 안내와 입 주변만 잘라 보내기(ML Kit 입술 → mouthBox), 사진 줄이기(긴 변 1280px)
+> - 첫 추천 빠르게(앱이 켜질 때 서버 미리 준비), 며칠 전 일정 아침 알림, 시리 단축어 한국어 등록, 앱 아이콘·이름(심청이)
+> - 전체 DB 설계(PostgreSQL·ERD)와 기능 spec(Spec Kit), 온보딩 시나리오 테스트
+>
+> **⑤ 서버·배포** — 에이전트([fashion-agent-agent](https://github.com/fashion-agent-team/fashion-agent-agent)) PR 12개, 게이트웨이([fashion-agent-gateway](https://github.com/fashion-agent-team/fashion-agent-gateway)) PR 6개
+> - 젯슨 상시 서버 배포(Docker Compose·Nginx·Tailscale Funnel), 첫 추천용 날씨·일정 미리 불러오기(`/agent/warm`), MCP 시간 초과 처리
+> - DB 정규화(V4: 로그인 수단·옷장·일정 장소 분리), 컨트롤러 슬라이스 테스트와 실제 DB 통합 테스트 분리
 >
 > 서버·MCP 저장소: [fashion-agent-team](https://github.com/fashion-agent-team) 조직의 `fashion-agent-gateway`, `fashion-agent-agent`, `mcp-*`
 
